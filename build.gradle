@@ -1,8 +1,11 @@
 plugins {
     id 'org.springframework.boot' version '2.3.10.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.6.RELEASE'
 }
 
+allprojects {
+    group = 'com.vazil'
+    version = '1.0.0'
+}
 
 subprojects {
     apply plugin: 'java-library'
@@ -10,42 +13,55 @@ subprojects {
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'maven-publish'
 
-    group = 'com.vazil'
-    version = '1.0.0'
-
-    java {
-        withSourcesJar()
-        withJavadocJar()
+    bootJar {
+        mainClassName = 'com.vazil.noti.Notification'
     }
-
-    sourceCompatibility = 11
-
 
     jar {
         enabled = true
+        from(sourceSets.main.allJava) {
+            includeEmptyDirs = false
+            include '**/*.java'
+        }
+    }
+
+    java {
+        modularity.inferModulePath = true // if you're using Java 9 or later
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+        withSourcesJar()
+//        withJavadocJar()
+    }
+
+    javadoc {
+
     }
 
     repositories {
         mavenCentral()
     }
 
+    dependencyManagement {
+        imports {
+            mavenBom "org.apache.logging.log4j:log4j-bom:2.17.0"
+        }
+    }
+
     dependencies {
-        implementation(platform("org.apache.logging.log4j:log4j-bom:2.17.0"))
         implementation 'javax.servlet:javax.servlet-api:3.1.0'
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
-
     }
 
+
+    /* 배포 설정 */
     publishing {
         publications {
-            maven(MavenPublication) {
-                groupId = 'com.example'
-                artifactId = 'my-library'
-                version = '1.0.0'
-
+            mavenJava(MavenPublication) {
+                groupId "${project.group}"
+                artifactId project.name
                 from components.java
             }
         }
@@ -53,7 +69,5 @@ subprojects {
             mavenLocal()
         }
     }
-
-
 }
 
