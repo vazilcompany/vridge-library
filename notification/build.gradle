@@ -46,10 +46,12 @@ repositories {
 
 dependencies {
     implementation "org.springframework.boot:spring-boot-starter-web"
-    implementation 'org.aspectj:aspectjweaver:1.9.6'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
+    implementation 'org.aspectj:aspectjweaver:1.9.6'
+    implementation 'com.google.code.gson:gson:2.10.1'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
