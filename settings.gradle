@@ -1,4 +1,2 @@
 rootProject.name = 'vridge-library'
-include 'noti-model'
-include 'noti-backend'
-
+include 'notification'

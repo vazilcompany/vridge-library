@@ -1,0 +1,67 @@
+buildscript {
+    // Consumer Proejct에서 버전 몇시 되있을 시 변경되게 설정
+    // 버전이 안맞아서 실행이 안되는 경우는 runtime error 또는 이상하게 동작 될 수 도 있음
+    if (!project.findProperty('springBootVersion')) {
+        ext {
+            springBootVersion = '2.3.10.RELEASE'
+        }
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath "io.spring.gradle:dependency-management-plugin:1.0.6.RELEASE"
+    }
+}
+
+apply plugin: 'java-library'
+apply plugin: 'maven-publish'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.vazil'
+version = '1.0.0'
+
+sourceCompatibility = 11
+targetCompatibility = 11
+
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
+bootJar {
+    enabled = true
+}
+
+jar {
+    enabled = true
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation 'org.aspectj:aspectjweaver:1.9.6'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+publishing {
+    publications {
+        "${project.name}"(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        mavenLocal()
+    }
+}
+
