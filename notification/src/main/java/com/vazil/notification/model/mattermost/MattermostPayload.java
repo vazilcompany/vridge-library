@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class Payload {
+public class MattermostPayload {
     private String channel;
     private String text;
     private String username;
