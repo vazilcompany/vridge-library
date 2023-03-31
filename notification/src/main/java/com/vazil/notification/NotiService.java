@@ -2,19 +2,21 @@ package com.vazil.notification;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.*;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.client.RestTemplate;
+
+import javax.mail.internet.MimeMessage;
+
 @Log4j2
 public class NotiService {
 
-    private RestTemplate restTemplate;
+    private final JavaMailSender javaMailSender;
 
-    public NotiService(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
+    public NotiService(JavaMailSender javaMailSender) {
+        this.javaMailSender = javaMailSender;
     }
 
-    public NotiService() {
-
-    }
 
     /**
      * Sends a payload to the specified request URL using RestTemplate.
@@ -23,6 +25,7 @@ public class NotiService {
      * @param jsonString The payload to send in JSON format.
      */
     public void sendPayload(String requestUrl, String jsonString) {
+        RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         HttpEntity<String> request = new HttpEntity<>(jsonString, headers);
@@ -52,20 +55,20 @@ public class NotiService {
      * @param subject The subject of the notification.
      * @param contents The contents of the notification.
      */
-//    public void sendEmail(String recipient, String subject, String contents)  {
-//        try {
-//            MimeMessage message = javaMailSender.createMimeMessage();
-//            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message, true, "UTF-8");
-//            mimeMessageHelper.setFrom("tester@test.com", "브릿지 AI");
-//            mimeMessageHelper.setTo(recipient);
-//            mimeMessageHelper.setSubject(subject);
-//            mimeMessageHelper.setText(contents, true);
-//            javaMailSender.send(message);
-//
-//            log.info("Email sent successfully!");
-//        } catch (Exception e) {
-//            log.info("Exception caught while sending email: " + e.getMessage());
-//        }
-//    }
+    public void sendEmail(String recipient, String subject, String contents)  {
+        try {
+            MimeMessage message = javaMailSender.createMimeMessage();
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message, true, "UTF-8");
+            mimeMessageHelper.setFrom("tester@test.com", "브릿지 AI");
+            mimeMessageHelper.setTo(recipient);
+            mimeMessageHelper.setSubject(subject);
+            mimeMessageHelper.setText(contents, true);
+            javaMailSender.send(message);
+
+            log.info("Email sent successfully!");
+        } catch (Exception e) {
+            log.info("Exception caught while sending email: " + e.getMessage());
+        }
+    }
 
 }
