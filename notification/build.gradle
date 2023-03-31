@@ -1,6 +1,4 @@
 buildscript {
-    // Consumer Proejct에서 버전 몇시 되있을 시 변경되게 설정
-    // 버전이 안맞아서 실행이 안되는 경우는 runtime error 또는 이상하게 동작 될 수 도 있음
     if (!project.findProperty('springBootVersion')) {
         ext {
             springBootVersion = '2.3.10.RELEASE'
@@ -28,7 +26,6 @@ targetCompatibility = 11
 
 java {
     withSourcesJar()
-    withJavadocJar()
 }
 
 bootJar {
@@ -46,25 +43,37 @@ repositories {
 
 dependencies {
     implementation "org.springframework.boot:spring-boot-starter-web"
+//    implementation 'org.springframework.boot:spring-boot-starter-aop'
+
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+//    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+    compileOnly 'org.aspectj:aspectjweaver'
 
-    implementation 'org.aspectj:aspectjweaver:1.9.6'
     implementation 'com.google.code.gson:gson:2.10.1'
 
+    implementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 }
 
 publishing {
     publications {
-        "${project.name}"(MavenPublication) {
+        mavenJava(MavenPublication) {
             from components.java
         }
     }
     repositories {
-        mavenLocal()
+        maven {
+            name = "GitHubPackages"
+            url = "https://maven.pkg.github.com/vazilcompany/vridge-library"
+            credentials {
+                username = "vazilcompany"
+                password = "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"
+            }
+        }
     }
 }
 
