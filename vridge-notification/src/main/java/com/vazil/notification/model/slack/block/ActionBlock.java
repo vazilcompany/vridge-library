@@ -4,9 +4,6 @@ import com.vazil.notification.model.slack.element.BlockElement;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Data
 @Builder
 public class ActionBlock implements LayoutBlock {

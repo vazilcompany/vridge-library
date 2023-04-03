@@ -1,5 +1,6 @@
 package com.vazil.notification;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.*;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -9,29 +10,25 @@ import org.springframework.web.client.RestTemplate;
 import javax.mail.internet.MimeMessage;
 
 @Log4j2
-public class NotiService {
+public class NotiService{
 
-    private final JavaMailSender javaMailSender;
 
-    public NotiService(JavaMailSender javaMailSender) {
-        this.javaMailSender = javaMailSender;
-    }
-
+    private org.springframework.mail.javamail.JavaMailSender JavaMailSender;
 
     /**
      * Sends a payload to the specified request URL using RestTemplate.
      *
-     * @param requestUrl The URL to send the payload to.
-     * @param jsonString The payload to send in JSON format.
+     * @param webhookUrl The URL to send the payload to.
+     * @param payload The payload to send in JSON format.
      */
-    public void sendPayload(String requestUrl, String jsonString) {
+    public void sendPayload(String webhookUrl, String payload) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-        HttpEntity<String> request = new HttpEntity<>(jsonString, headers);
+        HttpEntity<String> request = new HttpEntity<>(payload, headers);
 
         try {
-            ResponseEntity<String> response = restTemplate.postForEntity(requestUrl, request, String.class);
+            ResponseEntity<String> response = restTemplate.postForEntity(webhookUrl, request, String.class);
             if (response.getStatusCode() == HttpStatus.OK) {
                 log.info("Payload sent successfully!");
 
@@ -56,6 +53,7 @@ public class NotiService {
      * @param contents The contents of the notification.
      */
     public void sendEmail(String recipient, String subject, String contents)  {
+        JavaMailSender javaMailSender = JavaMailSender;
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message, true, "UTF-8");

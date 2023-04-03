@@ -1,5 +1,6 @@
 package com.vazil.notification.model.mattermost;
 
+import com.google.gson.Gson;
 import lombok.Builder;
 import lombok.Data;
 
@@ -15,4 +16,13 @@ public class MattermostPayload {
     private boolean unfurl_links;
     private boolean unfurl_media;
     private Attachments[] attachments;
+
+
+    public static String textTemplate(String text) {
+        MattermostPayload mattermostPayload =MattermostPayload.builder().text(text).build();
+        return new Gson().toJson(mattermostPayload);
+    }
+
+
+
 }

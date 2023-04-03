@@ -1,2 +1,3 @@
 rootProject.name = 'vridge-library'
-include 'notification'
+include 'vridge-notification'
+

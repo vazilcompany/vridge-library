@@ -1,6 +1,5 @@
 package com.vazil.notification.model.slack.element;
 
-import com.vazil.notification.model.slack.composition.ConfirmObject;
 import com.vazil.notification.model.slack.composition.DispatchConfigurationObject;
 import com.vazil.notification.model.slack.composition.PlainTextObject;
 import lombok.Builder;
