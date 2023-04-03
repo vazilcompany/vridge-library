@@ -1,7 +1,7 @@
 package com.vazil.notification;
 
-import lombok.AllArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.http.*;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -9,11 +9,14 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.mail.internet.MimeMessage;
 
-@Log4j2
 public class NotiService{
 
+    private static final Log log = LogFactory.getLog(NotiService.class);
+    private JavaMailSender javaMailSender;
 
-    private org.springframework.mail.javamail.JavaMailSender JavaMailSender;
+    public NotiService(JavaMailSender javaMailSender) {
+        this.javaMailSender = javaMailSender;
+    }
 
     /**
      * Sends a payload to the specified request URL using RestTemplate.
@@ -21,7 +24,7 @@ public class NotiService{
      * @param webhookUrl The URL to send the payload to.
      * @param payload The payload to send in JSON format.
      */
-    public void sendPayload(String webhookUrl, String payload) {
+    public  void sendPayload(String webhookUrl, String payload) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
@@ -37,13 +40,10 @@ public class NotiService{
 
             }
         } catch (Exception e) {
-            log.info("Exception caught while sending payload: " + e.getMessage());
+            log.info("Exception caught while sending payload: ", e);
 
         }
     }
-
-
-
 
     /**
      * Sends a notification using the specified NotiType.
@@ -53,11 +53,10 @@ public class NotiService{
      * @param contents The contents of the notification.
      */
     public void sendEmail(String recipient, String subject, String contents)  {
-        JavaMailSender javaMailSender = JavaMailSender;
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message, true, "UTF-8");
-            mimeMessageHelper.setFrom("tester@test.com", "브릿지 AI");
+//            mimeMessageHelper.setFrom("tester@test.com", "브릿지 AI");
             mimeMessageHelper.setTo(recipient);
             mimeMessageHelper.setSubject(subject);
             mimeMessageHelper.setText(contents, true);
@@ -65,8 +64,7 @@ public class NotiService{
 
             log.info("Email sent successfully!");
         } catch (Exception e) {
-            log.info("Exception caught while sending email: " + e.getMessage());
+            log.info("Exception caught while sending email", e);
         }
     }
-
 }
