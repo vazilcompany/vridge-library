@@ -2,8 +2,6 @@ package com.vazil.notification;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.http.*;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -47,8 +45,6 @@ public class NotiService{
         }
     }
 
-    @Autowired
-    private Environment env;
     /**
      * Sends a notification using the specified NotiType.
      *
@@ -60,7 +56,7 @@ public class NotiService{
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message, true, "UTF-8");
-            mimeMessageHelper.setFrom(env.getProperty("spring.mail.properties.mail.smtp.from.email"), env.getProperty("spring.mail.properties.mail.smtp.from.personal"));
+//            mimeMessageHelper.setFrom("tester@test.com", "브릿지 AI");
             mimeMessageHelper.setTo(recipient);
             mimeMessageHelper.setSubject(subject);
             mimeMessageHelper.setText(contents, true);
@@ -71,6 +67,4 @@ public class NotiService{
             log.info("Exception caught while sending email", e);
         }
     }
-
-
 }
