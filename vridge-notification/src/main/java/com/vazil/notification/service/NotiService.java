@@ -1,24 +1,25 @@
-package com.vazil.notification;
+package com.vazil.notification.service;
 
+import lombok.AllArgsConstructor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.*;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.mail.internet.MimeMessage;
 
+@Service
+@AllArgsConstructor
 public class NotiService{
 
     private static final Log log = LogFactory.getLog(NotiService.class);
-    private JavaMailSender javaMailSender;
+    private final JavaMailSender javaMailSender;
+    private final Environment env;
 
-    public NotiService(JavaMailSender javaMailSender) {
-        this.javaMailSender = javaMailSender;
-    }
 
     /**
      * Sends a payload to the specified request URL using RestTemplate.
@@ -26,7 +27,7 @@ public class NotiService{
      * @param webhookUrl The URL to send the payload to.
      * @param payload The payload to send in JSON format.
      */
-    public  void sendPayload(String webhookUrl, String payload) {
+    public void sendPayload(String webhookUrl, String payload) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
@@ -47,8 +48,7 @@ public class NotiService{
         }
     }
 
-    @Autowired
-    private Environment env;
+
     /**
      * Sends a notification using the specified NotiType.
      *
@@ -71,6 +71,4 @@ public class NotiService{
             log.info("Exception caught while sending email", e);
         }
     }
-
-
 }
