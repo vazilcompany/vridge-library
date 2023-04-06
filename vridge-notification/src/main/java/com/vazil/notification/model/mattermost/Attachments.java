@@ -38,5 +38,5 @@ public class Attachments {
     private String footer;
     private String footer_icon;
     @SerializedName("ts")
-    private long time_stamp;
+    private Long time_stamp;
 }

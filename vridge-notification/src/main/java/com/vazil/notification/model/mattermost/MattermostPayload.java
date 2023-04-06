@@ -12,11 +12,24 @@ public class MattermostPayload {
     private String username;
     private String icon_url;
     private String icon_emoji;
-    private boolean link_names;
-    private boolean unfurl_links;
-    private boolean unfurl_media;
+    private Boolean link_names;
+    private Boolean unfurl_links;
+    private Boolean unfurl_media;
     private Attachments[] attachments;
 
+    public static MattermostPayload basicTemplate(MattermostPayload mattermostPayload) {
+        return MattermostPayload.builder()
+                .channel(mattermostPayload.channel)
+                .text(mattermostPayload.text)
+                .username(mattermostPayload.username)
+                .icon_url(mattermostPayload.icon_url)
+                .icon_emoji(mattermostPayload.icon_emoji)
+                .link_names(mattermostPayload.link_names)
+                .unfurl_links(mattermostPayload.unfurl_links)
+                .unfurl_media(mattermostPayload.unfurl_media)
+                .attachments(mattermostPayload.attachments)
+                .build();
+    }
 
     public static String textTemplate(String text) {
         MattermostPayload mattermostPayload =MattermostPayload.builder().text(text).build();

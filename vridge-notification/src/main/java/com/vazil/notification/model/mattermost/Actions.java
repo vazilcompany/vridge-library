@@ -35,7 +35,6 @@ public class Actions {
      * <li>success</li>
      * <li>danger</li>
      * </ul>
-
      */
     private String style;
     private Confirm confirm;

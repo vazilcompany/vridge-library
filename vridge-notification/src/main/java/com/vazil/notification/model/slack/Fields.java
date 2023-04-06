@@ -10,5 +10,5 @@ public class Fields {
     private String title;
     private String value;
     @SerializedName("short")
-    private boolean isShort;
+    private Boolean isShort;
 }
