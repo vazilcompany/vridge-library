@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class RadioButtonsElement implements BlockElement{
+public class RadioButtonsElement implements Element {
     private final String type = "radio_buttons";
     private String action_id;
     private OptionObject[] options;

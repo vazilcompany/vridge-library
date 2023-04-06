@@ -9,7 +9,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class StaticSelectElement implements BlockElement{
+public class StaticSelectElement implements Element {
     private final String type = "static_select";
     private String action_id;
     private OptionObject[] options;

@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class ImageBlock implements LayoutBlock {
+public class ImageBlock implements Block {
     private final String type = "image";
     private String block_id;
     private PlainTextObject title;

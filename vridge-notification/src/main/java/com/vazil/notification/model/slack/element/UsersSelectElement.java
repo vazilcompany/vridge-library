@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class UsersSelectElement implements BlockElement {
+public class UsersSelectElement implements Element {
     private final String type = "users_select";
     private String action_id;
     private String initial_user;

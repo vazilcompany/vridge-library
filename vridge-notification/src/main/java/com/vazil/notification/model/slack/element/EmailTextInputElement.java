@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class EmailTextInputElement implements BlockElement{
+public class EmailTextInputElement implements Element {
     private final String type = "email_text_input";
     private String action_id;
     private String initial_value;

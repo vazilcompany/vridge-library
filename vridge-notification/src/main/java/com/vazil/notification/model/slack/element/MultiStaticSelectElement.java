@@ -9,7 +9,7 @@ import com.vazil.notification.model.slack.composition.PlainTextObject;
 
 @Data
 @Builder
-public class MultiStaticSelectElement implements BlockElement{
+public class MultiStaticSelectElement implements Element {
     private final String type = "multi_static_select";
     private String action_id;
     private OptionObject[] options;

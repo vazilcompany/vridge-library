@@ -38,5 +38,17 @@ public class Attachments {
     private String footer;
     private String footer_icon;
     @SerializedName("ts")
-    private long time_stamp;
+    private Long time_stamp;
+
+    public static Attachments vridgeTemplate(String fallback, String color, String title, Fields[] fields, String footer, String footer_icon, Long time_stamp) {
+        return Attachments.builder()
+                .fallback(fallback)
+                .color(color)
+                .title(title)
+                .fields(fields)
+                .footer(footer)
+                .footer_icon(footer_icon)
+                .time_stamp(time_stamp)
+                .build();
+    }
 }

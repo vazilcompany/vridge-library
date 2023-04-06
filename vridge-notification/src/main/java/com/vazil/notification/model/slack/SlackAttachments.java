@@ -1,13 +1,13 @@
 package com.vazil.notification.model.slack;
 
 import com.google.gson.annotations.SerializedName;
-import com.vazil.notification.model.slack.block.LayoutBlock;
+import com.vazil.notification.model.slack.block.Block;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-public class Attachments {
+public class SlackAttachments {
     private String fallback;
     private String callback_id;
 
@@ -37,7 +37,7 @@ public class Attachments {
     private String title_link;
 
     private String text;
-    private Fields fields;
+    private SlackFields fields;
 
     private String image_url;
     private Integer image_width;
@@ -53,5 +53,12 @@ public class Attachments {
     @SerializedName("ts")
     private String time_stamp;
 
-    private LayoutBlock[] blocks;
+    private Block[] blocks;
+
+    public static SlackAttachments vridgeTemplate(String color, Block[] blocks) {
+        return SlackAttachments.builder()
+                .color(color)
+                .blocks(blocks)
+                .build();
+    }
 }

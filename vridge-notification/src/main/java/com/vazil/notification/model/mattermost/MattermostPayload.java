@@ -12,17 +12,21 @@ public class MattermostPayload {
     private String username;
     private String icon_url;
     private String icon_emoji;
-    private boolean link_names;
-    private boolean unfurl_links;
-    private boolean unfurl_media;
+    private Boolean link_names;
+    private Boolean unfurl_links;
+    private Boolean unfurl_media;
     private Attachments[] attachments;
 
-
     public static String textTemplate(String text) {
-        MattermostPayload mattermostPayload =MattermostPayload.builder().text(text).build();
-        return new Gson().toJson(mattermostPayload);
+        return new Gson().toJson(MattermostPayload.builder().text(text).build());
     }
 
-
-
+    public static String vridgeTemplate(String username, String iconUrl, String text, Attachments[] attachments) {
+        return new Gson().toJson(MattermostPayload.builder()
+                .username(username)
+                .icon_url(iconUrl)
+                .text(text)
+                .attachments(attachments)
+                .build());
+    }
 }

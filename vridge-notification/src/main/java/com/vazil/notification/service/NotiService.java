@@ -7,14 +7,16 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.*;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.mail.internet.MimeMessage;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
-public class NotiService{
+public class NotiService {
 
     private static final Log log = LogFactory.getLog(NotiService.class);
     private final JavaMailSender javaMailSender;
@@ -25,8 +27,9 @@ public class NotiService{
      * Sends a payload to the specified request URL using RestTemplate.
      *
      * @param webhookUrl The URL to send the payload to.
-     * @param payload The payload to send in JSON format.
+     * @param payload    The payload to send in JSON format.
      */
+    @Async
     public void sendPayload(String webhookUrl, String payload) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
@@ -37,26 +40,23 @@ public class NotiService{
             ResponseEntity<String> response = restTemplate.postForEntity(webhookUrl, request, String.class);
             if (response.getStatusCode() == HttpStatus.OK) {
                 log.info("Payload sent successfully!");
-
             } else {
                 log.info("Error sending payload: " + response.getStatusCode());
-
             }
         } catch (Exception e) {
             log.info("Exception caught while sending payload: ", e);
-
         }
     }
-
 
     /**
      * Sends a notification using the specified NotiType.
      *
      * @param recipient The recipient of the notification.
-     * @param subject The subject of the notification.
-     * @param contents The contents of the notification.
+     * @param subject   The subject of the notification.
+     * @param contents  The contents of the notification.
      */
-    public void sendEmail(String recipient, String subject, String contents)  {
+    @Async
+    public void sendEmail(String recipient, String subject, String contents) {
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message, true, "UTF-8");

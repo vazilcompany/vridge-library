@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class ChannelsSelectElement implements BlockElement {
+public class ChannelsSelectElement implements Element {
     private final String type = "channels_select";
     private String action_id;
     private String initial_channel;

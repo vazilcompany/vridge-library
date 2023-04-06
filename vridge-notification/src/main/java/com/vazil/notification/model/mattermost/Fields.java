@@ -10,6 +10,14 @@ public class Fields {
     private String title;
     private String value;
     @SerializedName("short")
-    private boolean isShort;
+    private Boolean isShort;
+
+    public static Fields template(String title, String value, Boolean isShort) {
+        return Fields.builder()
+                .title(title)
+                .value(value)
+                .isShort(isShort)
+                .build();
+    }
 }
 

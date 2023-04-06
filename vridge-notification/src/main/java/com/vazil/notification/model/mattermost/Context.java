@@ -7,7 +7,7 @@ import lombok.Data;
 @Builder
 public class Context {
     private String repo;
-    private long pr;
+    private Long pr;
     private String action_id;
     private String action;
     private String token;

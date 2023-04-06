@@ -1,6 +1,8 @@
 package com.vazil.notification.model.slack.composition;
 
-public abstract class TextObject {
+import com.vazil.notification.model.slack.element.Element;
+
+public abstract class TextObject implements Element {
     public abstract String getType();
     public abstract String getText();
 }

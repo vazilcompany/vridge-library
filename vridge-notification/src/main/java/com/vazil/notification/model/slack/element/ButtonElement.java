@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class ButtonElement implements BlockElement{
+public class ButtonElement implements Element {
     private final String type = "button";
     private PlainTextObject text;
     private String action_id;

@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class PlainTextInputElement implements BlockElement {
+public class PlainTextInputElement implements Element {
     private final String type = "plain_text_input";
     private String action_id;
     private String initial_value;

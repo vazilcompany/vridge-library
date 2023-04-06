@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class MultiExternalSelectElement implements BlockElement {
+public class MultiExternalSelectElement implements Element {
     private final String type = "multi_external_select";
     private String action_id;
     private Integer min_query_length;

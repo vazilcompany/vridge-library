@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class DividerBlock implements LayoutBlock {
+public class DividerBlock implements Block {
     private final String type = "divider";
     private String block_id;
 }

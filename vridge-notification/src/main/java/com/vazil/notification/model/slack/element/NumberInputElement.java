@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class NumberInputElement implements BlockElement {
+public class NumberInputElement implements Element {
     private final String type = "number_input";
     private Boolean is_decimal_allowed;
     private String action_id;

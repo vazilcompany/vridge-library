@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class ConversationsSelectElement implements BlockElement {
+public class ConversationsSelectElement implements Element {
     private final String type = "conversations_select";
     private String action_id;
     private String initial_conversation;

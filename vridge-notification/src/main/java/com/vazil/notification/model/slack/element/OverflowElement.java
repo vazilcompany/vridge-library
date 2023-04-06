@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class OverflowElement implements BlockElement {
+public class OverflowElement implements Element {
     private final String type = "overflow";
     private String action_id;
     private OptionObject[] options;
