@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class Attachments {
+public class SlackAttachments {
     private String fallback;
     private String callback_id;
 
@@ -37,7 +37,7 @@ public class Attachments {
     private String title_link;
 
     private String text;
-    private Fields fields;
+    private SlackFields fields;
 
     private String image_url;
     private Integer image_width;
@@ -55,8 +55,8 @@ public class Attachments {
 
     private Block[] blocks;
 
-    public static Attachments vridgeTemplate(String color, Block[] blocks) {
-        return Attachments.builder()
+    public static SlackAttachments vridgeTemplate(String color, Block[] blocks) {
+        return SlackAttachments.builder()
                 .color(color)
                 .blocks(blocks)
                 .build();

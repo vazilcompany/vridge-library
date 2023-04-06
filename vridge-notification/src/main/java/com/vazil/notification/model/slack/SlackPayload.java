@@ -16,13 +16,13 @@ public class SlackPayload {
     private String icon_emoji;
 
     private Block[] blocks;
-    private Attachments[] attachments;
+    private SlackAttachments[] attachments;
 
     private Boolean unfurl_links;
     private Boolean unfurl_media;
 
 
-    public static String vridgeTemplate(String username, String icon_url, String text, Block[] blocks, Attachments[] attachments) {
+    public static String vridgeTemplate(String username, String icon_url, String text, Block[] blocks, SlackAttachments[] attachments) {
         return new Gson().toJson(SlackPayload.builder()
                 .username(username)
                 .icon_url(icon_url)

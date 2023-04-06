@@ -26,6 +26,10 @@ public class SectionBlock implements Block {
                 .build();
     }
 
+    public static SectionBlock sectionTitle(String title) {
+        return sectionTitle(title, " ");
+    }
+
     public static SectionBlock sectionBody(String body1, String body2) {
         return SectionBlock.builder()
                 .fields(
@@ -34,6 +38,10 @@ public class SectionBlock implements Block {
                                 , PlainTextObject.textTemplate(body2)
                         })
                 .build();
+    }
+
+    public static SectionBlock sectionBody(String body) {
+        return sectionTitle(body, " ");
     }
 
 }

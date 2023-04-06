@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class Fields {
+public class SlackFields {
     private String title;
     private String value;
     @SerializedName("short")
