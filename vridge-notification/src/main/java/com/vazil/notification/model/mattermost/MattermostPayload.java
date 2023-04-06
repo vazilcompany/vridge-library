@@ -17,25 +17,16 @@ public class MattermostPayload {
     private Boolean unfurl_media;
     private Attachments[] attachments;
 
-    public static MattermostPayload basicTemplate(MattermostPayload mattermostPayload) {
-        return MattermostPayload.builder()
-                .channel(mattermostPayload.channel)
-                .text(mattermostPayload.text)
-                .username(mattermostPayload.username)
-                .icon_url(mattermostPayload.icon_url)
-                .icon_emoji(mattermostPayload.icon_emoji)
-                .link_names(mattermostPayload.link_names)
-                .unfurl_links(mattermostPayload.unfurl_links)
-                .unfurl_media(mattermostPayload.unfurl_media)
-                .attachments(mattermostPayload.attachments)
-                .build();
-    }
-
     public static String textTemplate(String text) {
-        MattermostPayload mattermostPayload =MattermostPayload.builder().text(text).build();
-        return new Gson().toJson(mattermostPayload);
+        return new Gson().toJson(MattermostPayload.builder().text(text).build());
     }
 
-
-
+    public static String vridgeTemplate(String username, String iconUrl, String text, Attachments[] attachments) {
+        return new Gson().toJson(MattermostPayload.builder()
+                .username(username)
+                .icon_url(iconUrl)
+                .text(text)
+                .attachments(attachments)
+                .build());
+    }
 }

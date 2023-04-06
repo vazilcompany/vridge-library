@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class CheckboxesElement implements BlockElement{
+public class CheckboxesElement implements Element {
     private final String type = "checkboxes";
     private String action_id;
     private OptionObject[] options;

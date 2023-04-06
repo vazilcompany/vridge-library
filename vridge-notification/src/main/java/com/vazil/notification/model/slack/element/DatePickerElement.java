@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class DatePickerElement implements BlockElement {
+public class DatePickerElement implements Element {
     private final String type = "datepicker";
     private String action_id;
     private String initial_date;

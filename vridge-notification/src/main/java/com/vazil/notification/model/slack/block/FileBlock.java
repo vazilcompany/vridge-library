@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class FileBlock implements LayoutBlock {
+public class FileBlock implements Block {
     private final String type = "file";
     private String block_id;
     private String external_id;

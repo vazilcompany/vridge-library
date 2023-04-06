@@ -11,4 +11,8 @@ public class PlainTextObject extends TextObject{
     private final String type = "plain_text";
     private final String text;
     private Boolean emoji;
+
+    public static PlainTextObject textTemplate(String text) {
+        return PlainTextObject.builder().text(text).build();
+    }
 }

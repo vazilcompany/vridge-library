@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class UrlTextInputElement implements BlockElement {
+public class UrlTextInputElement implements Element {
     private final String type = "url_text_input";
     private String action_id;
     private String initial_value;

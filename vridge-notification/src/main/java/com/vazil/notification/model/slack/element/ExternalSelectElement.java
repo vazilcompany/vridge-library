@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class ExternalSelectElement implements BlockElement {
+public class ExternalSelectElement implements Element {
     private final String type = "external_select";
     private String action_id;
     private OptionObject initial_options;

@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class TimepickerElement implements BlockElement {
+public class TimepickerElement implements Element {
     private final String type = "timepicker";
     private String action_id;
     private String initial_time;

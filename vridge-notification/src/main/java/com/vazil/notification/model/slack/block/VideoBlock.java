@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class VideoBlock implements LayoutBlock {
+public class VideoBlock implements Block {
     private final String type = "video";
     private String block_id;
     private PlainTextObject title;

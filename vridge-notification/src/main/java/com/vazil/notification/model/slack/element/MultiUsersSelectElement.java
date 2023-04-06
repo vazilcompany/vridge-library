@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class MultiUsersSelectElement implements BlockElement {
+public class MultiUsersSelectElement implements Element {
     private final String type = "multi_users_select";
     private String action_id;
     private String[] initial_users;
