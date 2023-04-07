@@ -4,6 +4,10 @@ import com.google.gson.Gson;
 import lombok.Builder;
 import lombok.Data;
 
+/**
+ * <h1>Mattermost create create incoming webhook </h1>
+ * https://developers.mattermost.com/integrate/webhooks/incoming/
+ */
 @Data
 @Builder
 public class MattermostPayload {
