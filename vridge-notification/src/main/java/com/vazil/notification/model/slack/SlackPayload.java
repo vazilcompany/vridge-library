@@ -5,6 +5,10 @@ import com.vazil.notification.model.slack.block.Block;
 import lombok.Builder;
 import lombok.Data;
 
+/**
+ * <h1>Slack Block Kit Builder</h1>
+ * https://app.slack.com/block-kit-builder
+ */
 @Data
 @Builder
 public class SlackPayload {

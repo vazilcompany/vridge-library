@@ -1,6 +1,7 @@
-package com.vazil.notification.service;
+package com.vazil.notification;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.core.env.Environment;
@@ -12,16 +13,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.mail.internet.MimeMessage;
-import java.util.Objects;
 
 @Service
 @AllArgsConstructor
-public class NotiService {
+@Log4j2
+public class VridgeNotify {
 
-    private static final Log log = LogFactory.getLog(NotiService.class);
     private final JavaMailSender javaMailSender;
     private final Environment env;
-
 
     /**
      * Sends a payload to the specified request URL using RestTemplate.
@@ -57,10 +56,14 @@ public class NotiService {
      */
     @Async
     public void sendEmail(String recipient, String subject, String contents) {
+        String fromEmail = env.getProperty("spring.mail.from.email");
+        String fromPersonal = env.getProperty("spring.mail.from.personal");
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message, true, "UTF-8");
-            mimeMessageHelper.setFrom(env.getProperty("spring.mail.properties.mail.smtp.from.email"), env.getProperty("spring.mail.properties.mail.smtp.from.personal"));
+            if (fromEmail != null) {
+                mimeMessageHelper.setFrom(fromEmail, fromPersonal);
+            }
             mimeMessageHelper.setTo(recipient);
             mimeMessageHelper.setSubject(subject);
             mimeMessageHelper.setText(contents, true);

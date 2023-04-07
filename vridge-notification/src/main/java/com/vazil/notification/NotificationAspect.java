@@ -1,6 +1,6 @@
-package com.vazil.notification.aspect;
+package com.vazil.notification;
 
-import com.vazil.notification.service.NotiService;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
+@Log4j2
 public class NotificationAspect {
 
-    private static final Log log = LogFactory.getLog(NotiService.class);
 
     @Around("@annotation(com.vazil.notification.annotation.Notification)")
     public Object notificationSender(ProceedingJoinPoint point) throws Throwable {
