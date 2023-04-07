@@ -26,7 +26,7 @@ public class SectionBlock implements Block {
                 .build();
     }
 
-    public static SectionBlock markdownShort(String title, String body) {
+    public static SectionBlock markdown(String title, String body) {
         return markdown(title, body, " ", " ");
     }
 
@@ -40,7 +40,7 @@ public class SectionBlock implements Block {
                 .build();
     }
 
-    public static SectionBlock plainTextShort(String title, String body) {
+    public static SectionBlock plainText(String title, String body) {
         return plainText(title, body, " ", " ");
     }
 
