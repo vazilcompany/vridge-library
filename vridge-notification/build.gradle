@@ -55,6 +55,15 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+
+    // Slack API Client - https://slack.dev/java-slack-sdk/
+//    implementation 'com.slack.api:slack-api-client:1.27.3'
+
+    // Slack bolt
+//    implementation("com.slack.api:bolt:1.27.3")
+
+    // Mattermost4j - https://github.com/maruTA-bis5/mattermost4j
+//    implementation 'net.bis5.mattermost4j:mattermost4j-core:1.0.0-beta.1'
 }
 
 publishing {
