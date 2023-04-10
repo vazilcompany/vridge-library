@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
-@Component
 public class Kakao {
     // 메세지 참고 문헌 - https://developers.kakao.com/docs/latest/ko/message/rest-api#default-template-msg-friend
 

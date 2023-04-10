@@ -1,7 +1,7 @@
 package com.vazil.notification;
 
-import com.vazil.notification.model.mattermost.Attachments;
-import com.vazil.notification.model.mattermost.Fields;
+import com.vazil.notification.model.mattermost.MattermostAttachments;
+import com.vazil.notification.model.mattermost.MattermostFields;
 import com.vazil.notification.model.mattermost.MattermostPayload;
 import com.vazil.notification.model.slack.SlackAttachments;
 import com.vazil.notification.model.slack.SlackPayload;
@@ -33,20 +33,24 @@ public class VridgeTemplate {
     /*
     Mattermost
      */
-    public static String mattermostTemplate(String fallback, String title, String color, List<Fields> fields) {
-        Attachments attachments = Attachments.vridgeTemplate(fallback, color, title, fields != null ? fields.toArray(new Fields[0]) : null, footer, footerIcon, ts);
-        return MattermostPayload.vridgeTemplate(username, iconUrl, null, new Attachments[]{attachments});
+    public static String mattermostTemplate(String fallback, String title, String color, List<MattermostFields> fields) {
+        MattermostAttachments mattermostAttachments = MattermostAttachments.vridgeTemplate(fallback, color, title, fields != null ? fields.toArray(new MattermostFields[0]) : null, footer, footerIcon, ts);
+        return MattermostPayload.vridgeTemplate(username, iconUrl, null, new MattermostAttachments[]{mattermostAttachments});
     }
 
-    public static String mattermostInfo(String fallback, String title, List<Fields> fields) {
+    public static String mattermostInfo(String fallback, String title, List<MattermostFields> fields) {
         return mattermostTemplate(fallback, title, "#009944", fields);
     }
 
-    public static String mattermostError(String fallback, String title, List<Fields> fields) {
+    public static String mattermostInfo(String titleWithFallback, List<MattermostFields> fields) {
+        return mattermostTemplate(titleWithFallback, titleWithFallback, "#009944", fields);
+    }
+
+    public static String mattermostError(String fallback, String title, List<MattermostFields> fields) {
         return mattermostTemplate(fallback, title, "#cf000f", fields);
     }
 
-    public static String mattermostWarning(String fallback, String title, List<Fields> fields) {
+    public static String mattermostWarning(String fallback, String title, List<MattermostFields> fields) {
         return mattermostTemplate(fallback, title, "#f0541e", fields);
     }
 
@@ -66,6 +70,10 @@ public class VridgeTemplate {
 
         SlackAttachments attachments = SlackAttachments.vridgeTemplate(color, attachBlock.toArray(new Block[0]));
         return SlackPayload.vridgeTemplate(username, iconUrl, text, new Block[]{headerBlock}, new SlackAttachments[]{attachments});
+    }
+
+    public static String slackInfo(String titleWithFallback, List<SectionBlock> sectionBlocks) {
+        return slackTemplate(titleWithFallback, titleWithFallback, "#009944", sectionBlocks);
     }
 
     public static String slackInfo(String text, String header, List<SectionBlock> sectionBlocks) {
