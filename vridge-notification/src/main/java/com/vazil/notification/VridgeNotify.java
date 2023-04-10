@@ -2,6 +2,7 @@ package com.vazil.notification;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -28,13 +29,13 @@ public class VridgeNotify {
     @Autowired
     private Environment env;
 
+
     /**
      * Sends a payload to the specified request URL using RestTemplate.
      *
      * @param webhookUrl The URL to send the payload to.
      * @param payload    The payload to send in JSON format.
      */
-    @Async
     public void sendPayload(String webhookUrl, String payload) {
         try {
             HttpClient httpClient = HttpClient.newHttpClient();
@@ -45,19 +46,15 @@ public class VridgeNotify {
                     .build();
 
             httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                    .thenApply(HttpResponse::body)
-                    .thenAccept(System.out::println)
+                    .thenApply(HttpResponse::statusCode)
+                    .thenAccept(statusCode -> {
+                        if (statusCode == 200) {
+                            log.info("Payload sent successfully!");
+                        } else {
+                            log.info("Error sending payload: " + statusCode);
+                        }
+                    })
                     .join();
-
-            // POST 요청 전송 및 응답 받기
-            HttpResponse<String> httpResponse = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
-
-            if (httpResponse.statusCode() == 200) {
-                log.info("Payload sent successfully!");
-            } else {
-                log.info("Error sending payload: " + httpResponse.statusCode());
-            }
         } catch (Exception e) {
             log.info("Exception caught while sending payload: ", e);
         }
