@@ -3,24 +3,28 @@ package com.vazil.notification;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.http.*;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.ByteBuffer;
+import java.util.concurrent.Flow;
 
 @Service
 @Log4j2
+@EnableAsync
 public class VridgeNotify {
 
     @Autowired
     private JavaMailSenderImpl javaMailSender;
-    @Autowired
-    private RestTemplate restTemplate;
     @Autowired
     private Environment env;
 
@@ -33,15 +37,26 @@ public class VridgeNotify {
     @Async
     public void sendPayload(String webhookUrl, String payload) {
         try {
-            HttpHeaders headers = new HttpHeaders();
-            headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-            HttpEntity<String> request = new HttpEntity<>(payload, headers);
+            HttpClient httpClient = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(webhookUrl))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(payload))
+                    .build();
 
-            ResponseEntity<String> response = restTemplate.postForEntity(webhookUrl, request, String.class);
-            if (response.getStatusCode() == HttpStatus.OK) {
+            httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                    .thenApply(HttpResponse::body)
+                    .thenAccept(System.out::println)
+                    .join();
+
+            // POST 요청 전송 및 응답 받기
+            HttpResponse<String> httpResponse = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+
+            if (httpResponse.statusCode() == 200) {
                 log.info("Payload sent successfully!");
             } else {
-                log.info("Error sending payload: " + response.getStatusCode());
+                log.info("Error sending payload: " + httpResponse.statusCode());
             }
         } catch (Exception e) {
             log.info("Exception caught while sending payload: ", e);
