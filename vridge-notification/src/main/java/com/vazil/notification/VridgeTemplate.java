@@ -23,6 +23,12 @@ import java.util.List;
 @Data
 public class VridgeTemplate {
 
+
+    /*
+    TODO - static vaules 수정하기
+            html 파일 수정하기
+     */
+
     private static final String username = "브릿지 봇";
     private static final String iconUrl = "https://cf.channel.io/pub-file/85296/6385bee201c87b30b8a6/vbotface.png";
     private static final String footer = "Vridge";
