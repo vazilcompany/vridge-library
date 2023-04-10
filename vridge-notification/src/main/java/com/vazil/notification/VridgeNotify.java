@@ -1,26 +1,28 @@
 package com.vazil.notification;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.*;
-import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.mail.internet.MimeMessage;
+import java.io.IOException;
 
 @Service
-@AllArgsConstructor
 @Log4j2
 public class VridgeNotify {
 
-    private final JavaMailSender javaMailSender;
-    private final Environment env;
+    @Autowired
+    private JavaMailSenderImpl javaMailSender;
+    @Autowired
+    private RestTemplate restTemplate;
+    @Autowired
+    private Environment env;
 
     /**
      * Sends a payload to the specified request URL using RestTemplate.
@@ -30,12 +32,11 @@ public class VridgeNotify {
      */
     @Async
     public void sendPayload(String webhookUrl, String payload) {
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-        HttpEntity<String> request = new HttpEntity<>(payload, headers);
-
         try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+            HttpEntity<String> request = new HttpEntity<>(payload, headers);
+
             ResponseEntity<String> response = restTemplate.postForEntity(webhookUrl, request, String.class);
             if (response.getStatusCode() == HttpStatus.OK) {
                 log.info("Payload sent successfully!");
@@ -56,9 +57,10 @@ public class VridgeNotify {
      */
     @Async
     public void sendEmail(String recipient, String subject, String contents) {
-        String fromEmail = env.getProperty("spring.mail.from.email");
-        String fromPersonal = env.getProperty("spring.mail.from.personal");
         try {
+            String fromEmail = env.getProperty("spring.mail.properties.mail.from.email");
+            String fromPersonal = env.getProperty("spring.mail.properties.mail.from.personal");
+
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message, true, "UTF-8");
             if (fromEmail != null) {
