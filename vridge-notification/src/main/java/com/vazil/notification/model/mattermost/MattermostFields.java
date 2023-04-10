@@ -6,14 +6,14 @@ import lombok.Data;
 
 @Data
 @Builder
-public class Fields {
+public class MattermostFields {
     private String title;
     private String value;
     @SerializedName("short")
     private Boolean isShort;
 
-    public static Fields template(String title, String value, Boolean isShort) {
-        return Fields.builder()
+    public static MattermostFields template(String title, String value, Boolean isShort) {
+        return MattermostFields.builder()
                 .title(title)
                 .value(value)
                 .isShort(isShort)

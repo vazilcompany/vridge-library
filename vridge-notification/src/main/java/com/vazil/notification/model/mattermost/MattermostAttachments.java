@@ -13,7 +13,7 @@ import lombok.Data;
  */
 @Data
 @Builder
-public class Attachments {
+public class MattermostAttachments {
     private String fallback;
     /**
      * Recommended colors for displaying information:
@@ -31,7 +31,7 @@ public class Attachments {
     private String title;
     private String title_link;
     private String text;
-    private Fields[] fields;
+    private MattermostFields[] fields;
     private Actions[] actions;
     private String image_url;
     private String thumb_url;
@@ -40,8 +40,8 @@ public class Attachments {
     @SerializedName("ts")
     private Long time_stamp;
 
-    public static Attachments vridgeTemplate(String fallback, String color, String title, Fields[] fields, String footer, String footer_icon, Long time_stamp) {
-        return Attachments.builder()
+    public static MattermostAttachments vridgeTemplate(String fallback, String color, String title, MattermostFields[] fields, String footer, String footer_icon, Long time_stamp) {
+        return MattermostAttachments.builder()
                 .fallback(fallback)
                 .color(color)
                 .title(title)

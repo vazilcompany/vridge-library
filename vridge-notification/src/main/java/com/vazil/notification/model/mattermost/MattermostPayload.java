@@ -19,13 +19,13 @@ public class MattermostPayload {
     private Boolean link_names;
     private Boolean unfurl_links;
     private Boolean unfurl_media;
-    private Attachments[] attachments;
+    private MattermostAttachments[] attachments;
 
     public static String textTemplate(String text) {
         return new Gson().toJson(MattermostPayload.builder().text(text).build());
     }
 
-    public static String vridgeTemplate(String username, String iconUrl, String text, Attachments[] attachments) {
+    public static String vridgeTemplate(String username, String iconUrl, String text, MattermostAttachments[] attachments) {
         return new Gson().toJson(MattermostPayload.builder()
                 .username(username)
                 .icon_url(iconUrl)
