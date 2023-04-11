@@ -59,12 +59,12 @@ public class VridgeNotify {
     /**
      * Sends a notification using the specified NotiType.
      *
-     * @param recipient The recipient of the notification.
+     * @param to The recipient of the notification.
      * @param subject   The subject of the notification.
      * @param contents  The contents of the notification.
      */
     @Async
-    public void sendEmail(String recipient, String subject, String contents) {
+    public void sendEmail(String to, String subject, String contents) {
         try {
             String fromEmail = env.getProperty("spring.mail.properties.mail.from.email");
             String fromPersonal = env.getProperty("spring.mail.properties.mail.from.personal");
@@ -74,7 +74,7 @@ public class VridgeNotify {
             if (fromEmail != null) {
                 mimeMessageHelper.setFrom(fromEmail, fromPersonal);
             }
-            mimeMessageHelper.setTo(recipient);
+            mimeMessageHelper.setTo(to);
             mimeMessageHelper.setSubject(subject);
             mimeMessageHelper.setText(contents, true);
             javaMailSender.send(message);
