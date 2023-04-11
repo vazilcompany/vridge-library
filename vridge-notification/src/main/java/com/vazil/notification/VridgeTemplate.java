@@ -1,5 +1,6 @@
 package com.vazil.notification;
 
+import com.vazil.notification.model.Email.TitleBody;
 import com.vazil.notification.model.mattermost.MattermostAttachments;
 import com.vazil.notification.model.mattermost.MattermostFields;
 import com.vazil.notification.model.mattermost.MattermostPayload;
@@ -11,8 +12,6 @@ import com.vazil.notification.model.slack.block.HeaderBlock;
 import com.vazil.notification.model.slack.block.SectionBlock;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
@@ -25,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-@Data
 public class VridgeTemplate {
 
     @Autowired
@@ -105,13 +103,24 @@ public class VridgeTemplate {
     Email
      */
 
-    public String validation(String template, String contents) {
+    public String email(String template, String contents) {
         try {
             Context context = new Context();
             context.setVariable("contents", contents);
             return templateEngine.process(template, context);
         } catch (Exception e) {
-            throw new RuntimeException("Failed to process email template: " + template, e);
+            throw new RuntimeException("Failed to process email template", e);
         }
+    }
+
+    public static String sections(String header, List<TitleBody> sections) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("<p class=\"header\">" + header + "</p>\n");
+
+        for (TitleBody section : sections) {
+            builder.append("<div class=\"label\">" + section.getTitle() + "</div>\n")
+                    .append("<div class=\"value\">" + section.getBody() + "</div>\n");
+        }
+        return builder.toString();
     }
 }
