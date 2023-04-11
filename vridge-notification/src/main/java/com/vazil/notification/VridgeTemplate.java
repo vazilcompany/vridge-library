@@ -1,6 +1,6 @@
 package com.vazil.notification;
 
-import com.vazil.notification.model.Email.TitleBody;
+import com.vazil.notification.model.TitleBody;
 import com.vazil.notification.model.mattermost.MattermostAttachments;
 import com.vazil.notification.model.mattermost.MattermostFields;
 import com.vazil.notification.model.mattermost.MattermostPayload;
@@ -10,7 +10,6 @@ import com.vazil.notification.model.slack.block.Block;
 import com.vazil.notification.model.slack.block.ContextBlock;
 import com.vazil.notification.model.slack.block.HeaderBlock;
 import com.vazil.notification.model.slack.block.SectionBlock;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.context.Context;

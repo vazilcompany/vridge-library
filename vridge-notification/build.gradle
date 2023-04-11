@@ -19,7 +19,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 group = 'com.vazil'
-version = '1.0.12'
+version = '1.0.13'
 
 sourceCompatibility = 11
 targetCompatibility = 11
@@ -30,12 +30,11 @@ java {
 
 bootJar {
     enabled = false
-//    enabled = true
-    exclude('src/test/**')
 }
-
+ㅇ
 jar {
     enabled = true
+    // TODO resources 폴더 안에 있으면 exclude가 적용안되는 오류 잡기
     exclude('src/main/resources/**')
     exclude('src/test/**')
 }
