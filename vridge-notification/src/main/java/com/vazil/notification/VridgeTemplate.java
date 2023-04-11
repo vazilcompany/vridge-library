@@ -10,7 +10,12 @@ import com.vazil.notification.model.slack.block.ContextBlock;
 import com.vazil.notification.model.slack.block.HeaderBlock;
 import com.vazil.notification.model.slack.block.SectionBlock;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -23,6 +28,8 @@ import java.util.List;
 @Data
 public class VridgeTemplate {
 
+    @Autowired
+    private SpringTemplateEngine templateEngine;
 
     /*
     TODO - static vaules 수정하기
@@ -94,4 +101,17 @@ public class VridgeTemplate {
         return slackTemplate(text, header, "#f0541e", sectionBlocks);
     }
 
+    /*
+    Email
+     */
+
+    public String validation(String template, String contents) {
+        try {
+            Context context = new Context();
+            context.setVariable("contents", contents);
+            return templateEngine.process(template, context);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to process email template: " + template, e);
+        }
+    }
 }
