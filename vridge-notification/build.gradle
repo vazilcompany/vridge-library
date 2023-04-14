@@ -5,6 +5,7 @@ buildscript {
         }
     }
     repositories {
+        google()
         mavenCentral()
     }
     dependencies {
@@ -31,7 +32,7 @@ java {
 bootJar {
     enabled = false
 }
-ㅇ
+
 jar {
     enabled = true
     // TODO resources 폴더 안에 있으면 exclude가 적용안되는 오류 잡기
@@ -40,6 +41,7 @@ jar {
 }
 
 repositories {
+    google()
     mavenCentral()
 }
 
@@ -55,6 +57,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+
+    runtimeOnly 'com.google.firebase:firebase-admin:8.1.0'
+
+    implementation 'com.google.firebase:firebase-admin:9.1.1'
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
     // Slack API Client - https://slack.dev/java-slack-sdk/
 //    implementation 'com.slack.api:slack-api-client:1.27.3'
