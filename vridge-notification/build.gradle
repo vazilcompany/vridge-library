@@ -85,7 +85,7 @@ publishing {
             url = "https://maven.pkg.github.com/vazilcompany/vridge-library"
             credentials {
                 username = "vazilcompany"
-                password = "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"
+                password = "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"
             }
         }
     }
