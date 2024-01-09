@@ -20,7 +20,6 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 group = 'com.vazil'
-version = '1.1.1'
 
 sourceCompatibility = 11
 targetCompatibility = 11
@@ -80,14 +79,7 @@ publishing {
         }
     }
     repositories {
-        maven {
-            name = "GitHubPackages"
-            url = "https://maven.pkg.github.com/vazilcompany/vridge-library"
-            credentials {
-                username = "vazilcompany"
-                password = "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"
-            }
-        }
+        mavenLocal()
     }
 }
 
