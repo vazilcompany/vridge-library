@@ -1,116 +1,24 @@
-const express = require("express")
-const axios = require("axios");
-const app = express();
+// Express 모듈에서 express의 app 객체 생성
+const express = require('express')
+const app = express()
 
+
+// 미들웨어 등록  :: TODO :: 정민교 :: 아직 잘 모르겠음
+app.use(express.json())
+app.use(express.urlencoded({ extended:false}))
+
+
+// 모듈 라우터 등록
+const gitRoutes = require('./router/gitRouter')
+app.use('/git', gitRoutes)
+
+
+// 포트 설정
 const port = 3000;
-const accessToken = ""
-
-app.get("/", async (req, res) => {
-  const {projectId, ref, path} = req.query
-  const response = await getTreeData(projectId, ref, path)
-  const buildFiles = []
-  const filePaths = []
-  const contents = []
-
-  console.log("=====================파일 분류 시작=====================")
-  response.forEach(x => {
-    if (x.type === "tree") {
-      filePaths.push(x)
-    } 
-
-    if (x.name.includes("build.gradle")) {
-      buildFiles.push(x)
-    }
-  })
-
-  while(filePaths.length !== 0){
-    const pathResponse = await getTreeData(projectId, ref, filePaths[0].path)
-
-    pathResponse.forEach(x => {
-      if (x.type === "tree") {
-        filePaths.push(x)
-      } 
-  
-      if (x.name.includes("build.gradle")) {
-        buildFiles.push(x)
-      }
-    })
-
-    filePaths.splice(0,1)
-  }
-
-  console.log("=====================파일 분류 완료=====================")
-  console.log("=====================파일 내용 가져오기 시작=====================")
-
-  for(let buildFileInfo of buildFiles) {
-    const blobData = await getFile(projectId, buildFileInfo.path, ref)
-    
-
-    const decodeData = decodeURIComponent(escape(atob(blobData.content)))
-    const regex = /([^{\n\s]+)\s*{([^{}]*)}/g;
-    const libraryInfo = {
-      module:buildFileInfo.path,
-      dependencies:[]
-    }
-
-    while ((match = regex.exec(decodeData)) !== null) {
-      const startValue = match[1].trim();
-      const blockContent = match[2].trim();
-
-      if (startValue === "dependencies") {
-        blockContent.split('\n').map(line => line.trim())
-        .filter(line => line !== "")
-        .filter(line => !line.startsWith("/"))
-        .forEach(line => libraryInfo.dependencies.push(line))
-      }
-    }
-
-    contents.push(libraryInfo)
-  }
-
-  console.log("=====================파일 내용 가져오기 완료=====================")
-
-  res.send(contents)
+app.listen(port, () => {
+    console.log(`${port} 번 포트 서버 시작!!!`)
 })
 
-const getTreeData = async (projectId, ref, path = "") => {
-    return await axios.get(`https://git.vazil.me/api/v4/projects/${projectId}/repository/tree`, {
-      headers: {
-        "PRIVATE-TOKEN": accessToken
-      },
-      params: {
-        ref: ref,
-        path: path
-      }
-    })
-    .then(r => {
-      return r.data
-    })
-    .catch(e => {
-      console.log("에러 발생 ::", e)
-      return []
-    })
-}
 
-const getFile = async (projectId, file_path, ref) => {
-  const encodedPath = encodeURIComponent(file_path)
-  return await axios.get(`https://git.vazil.me/api/v4/projects/${projectId}/repository/files/${encodedPath}`, {
-    headers: {
-      "PRIVATE-TOKEN": accessToken
-    },
-    params: {
-      ref: ref,
-    }
-  })
-  .then(r => {
-    return r.data
-  })
-  .catch(e => {
-    console.log("에러 발생 ::", e)
-    return {}
-  })
-}
-
-
-
-app.listen(port)
+// app 객체 내보내기
+module.exports = app
