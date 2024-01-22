@@ -8,3 +8,6 @@ build
 .idea
 
 bin/
+
+#node modules
+node_modules/
